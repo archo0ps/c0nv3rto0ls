@@ -28,9 +28,6 @@ import (
 const ERROR_BASE64_TEXT = "There were invalid base64."
 const ERROR_NIL_TEXT = "Please input text."
 
-var pattern string
-var text string
-
 var base64 = []string{"A", "B", "C", "D", "E", "F", "G", "H", "I",
 	"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
 	"W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i",
@@ -50,7 +47,7 @@ var base64Cmd = &cobra.Command{
 			return
 		}
 		if pattern == "decode" {
-			result, err := decode(text)
+			result, err := base64Decode(text)
 			if err != nil {
 				fmt.Println(err)
 				_ = cmd.Help()
@@ -58,7 +55,7 @@ var base64Cmd = &cobra.Command{
 			}
 			fmt.Println(result)
 		} else {
-			result, err := encode(text)
+			result, err := base64Encode(text)
 			if err != nil {
 				fmt.Println(err)
 				_ = cmd.Help()
@@ -76,7 +73,7 @@ func init() {
 
 }
 
-func decode(unDecode string) (string, error) {
+func base64Decode(unDecode string) (string, error) {
 	temp := ""
 	plaintext := ""
 	errorText := `[^A-Za-z0-9+/=]`
@@ -116,7 +113,7 @@ func decode(unDecode string) (string, error) {
 	return plaintext, nil
 }
 
-func encode(unEncode string) (string, error) {
+func base64Encode(unEncode string) (string, error) {
 	temp := ""
 	ciphertext := ""
 	if unEncode == "" {
